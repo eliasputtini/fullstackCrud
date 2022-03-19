@@ -13,3 +13,23 @@ export const getDevelopers = async () => {
     console.error("error => ", err);
   }
 };
+
+export const postDevelopers = async (name, idade, hobby) => {
+  try {
+    api.post("post", {
+      name: name,
+      idade: idade,
+      hobby: hobby,
+    });
+  } catch (err) {
+    console.error("error => ", err);
+  }
+};
+
+export const delDevelopers = async (id) => {
+  try {
+    api.delete(`delete/${id}`);
+  } catch (err) {
+    console.error("error => ", err);
+  }
+};
