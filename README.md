@@ -14,7 +14,7 @@ Utilize algum instalador de pacotes como yarn ou npm para escrever os comandos a
 
 ### Backend 
 
-Abra a pasta `./backend/`  no cmd e digite: 
+Abra a pasta `./server/`  no cmd e digite: 
 
 ```
 npm install
@@ -27,7 +27,7 @@ npm start
 ### Frontend 
 
 
-Abra a pasta `./frontend/` no cmd e digite: 
+Abra o diretório `./server/client/` no cmd e digite: 
 
 
 ```
