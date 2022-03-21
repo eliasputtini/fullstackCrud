@@ -16,13 +16,13 @@ database.once("connected", () => {
 });
 const app = express();
 
-const cors = require("cors");
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// const cors = require("cors");
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
 
 app.use(express.json());
 
@@ -32,6 +32,12 @@ const levelRoutes = require("./routes/level");
 app.use("/api", routes);
 app.use("/api", levelRoutes);
 
-app.listen(4000, () => {
-  console.log(`Server Started at ${4000}`);
+const PORT = process.env.PORT || 5000;
+
+if ((process.env.NODE_ENV = "production")) {
+  app.use(express.static("client/build"));
+}
+
+app.listen(PORT, () => {
+  console.log(`Server Started at ${PORT}`);
 });
