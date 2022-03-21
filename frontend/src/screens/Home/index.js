@@ -1,13 +1,15 @@
-import { getDevelopers } from "../../services/api";
+import { getDevelopers, getLevels } from "../../services/api";
 import React from "react";
 import { useEffect, useState } from "react";
 import Form from "../../components/Form";
 import List from "../../components/List";
+import LevelList from "../../components/LevelList";
 
-import { Main, Content, Marker, Image } from "./styles.js";
+import { Main, ListView } from "./styles.js";
 
 function Home() {
   const [developers, setDevelopers] = useState();
+  const [levels, setLevels] = useState();
   const [loading, setLoading] = useState(true);
 
   const removeUser = (id) => {
@@ -15,23 +17,52 @@ function Home() {
     setDevelopers(newList);
   };
 
+  const removeLevel = (id) => {
+    const newList = levels.filter((dev) => id !== dev._id);
+    setLevels(newList);
+  };
+
   useEffect(() => {
     setLoading(true);
     getDevelopers().then((response) => {
-      console.log(response.data);
       setDevelopers(response.data);
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    getLevels().then((response) => {
+      setLevels(response.data);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <>
       {loading ? (
-        <p>loading</p>
+        <p>loading...</p>
       ) : (
         <Main>
-          <Form users={developers} setUsers={setDevelopers} />
+          <Form
+            users={developers}
+            setUsers={setDevelopers}
+            levels={levels}
+            setLevels={setLevels}
+          />
           <br />
-          <List users={developers} removeUser={removeUser} />
+          <ListView>
+            <List
+              users={developers}
+              setUsers={setDevelopers}
+              removeUser={removeUser}
+            />
+            <LevelList
+              levels={levels}
+              setLevels={setLevels}
+              removeLevel={removeLevel}
+            />
+          </ListView>
         </Main>
       )}
     </>

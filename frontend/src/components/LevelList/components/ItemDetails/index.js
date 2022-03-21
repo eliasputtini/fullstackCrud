@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { User, Front, Back, Title, Avatar, Form } from "./styles";
-import {
-  delDevelopers,
-  patchDevelopers,
-  getLevels,
-  getLevel,
-} from "../../../../services/api";
+import { delLevels, patchLevels } from "../../../../services/api";
 
 import { BiTrash, BiCheck } from "react-icons/bi";
 import { FiEdit3 } from "react-icons/fi";
@@ -13,27 +8,18 @@ import { FiEdit3 } from "react-icons/fi";
 import { useToast } from "../../../../context/ToasterProvider";
 import { useSpring } from "react-spring";
 
-export default function ItemDetails({ user, changeDev, removeUser, close }) {
-  const [level, setLevel] = useState([]);
-  useEffect(() => {
-    getLevel().then((response) => {
-      setLevel(response.data);
-    });
-    getLevels().then((response) => {
-      setLevels(response.data);
-    });
-  }, []);
+export default function ItemDetails({
+  level,
+  changeLevel,
+  removeLevel,
+  close,
+}) {
   const initialValues = {
-    _id: user._id,
-    name: user.name,
-    idade: user.idade,
-    hobby: user.hobby,
-    nivel: user.nivel == null ? "" : level,
+    _id: level._id,
+    level: level.level,
   };
   const [flipped, set] = useState(false);
   const [values, setValues] = useState(initialValues);
-  const [levels, setLevels] = useState([]);
-
   const { addToast } = useToast();
 
   const { transform, opacity } = useSpring({
@@ -49,40 +35,27 @@ export default function ItemDetails({ user, changeDev, removeUser, close }) {
 
   const handleEdit = (e) => {
     try {
-      patchDevelopers(
-        user._id,
-        values.name,
-        values.idade,
-        values.hobby,
-        values.nivel
-      );
-      addToast("Dev editado com sucesso!");
+      patchLevels(level._id, values.level);
+      addToast("level editado com sucesso!");
     } catch (e) {
       addToast("Erro !");
     }
     const newUser = { ...values };
-    changeDev(newUser);
+    console.log(newUser);
+    changeLevel(newUser);
   };
 
-  const handleDelete = (id) => {
-    try {
-      addToast("Dev excluído com sucesso!");
-      delDevelopers(id);
-    } catch (e) {
-      addToast("Erro !");
+  const handleDelete = async (id) => {
+    let error = await delLevels(id);
+    console.log(error);
+    if (error != "Request failed with status code 501") {
+      addToast("level excluído com sucesso!");
+      removeLevel(id);
+    } else {
+      addToast("Erro, nivel sendo utilizado !");
     }
-    removeUser(id);
-    close();
-  };
 
-  const renderOptions = () => {
-    return (
-      levels &&
-      levels.length > 0 &&
-      levels.map((user, index) => {
-        return <option key={user._id}>{user.level}</option>;
-      })
-    );
+    close();
   };
 
   return (
@@ -91,41 +64,19 @@ export default function ItemDetails({ user, changeDev, removeUser, close }) {
         <User>
           <Title>
             <Title>
-              <Avatar image={user.name} />
-              <h4>{user.name}</h4>
+              {/* <Avatar image={level.name} /> */}
+              <h4>{level.name}</h4>
             </Title>
           </Title>
           <Form onSubmit={handleEdit}>
-            <label>Full name: </label>
+            <label>Nivel: </label>
             <input
               required
               type="text"
-              name="name"
-              value={values.name}
+              name="level"
+              value={values.level}
               onChange={handleChange}
             />
-
-            <label>Idade: </label>
-            <input
-              required
-              type="number"
-              name="idade"
-              value={values.idade}
-              onChange={handleChange}
-            />
-
-            <label>Hobby: </label>
-            <input
-              required
-              type="text"
-              name="hobby"
-              value={values.hobby}
-              onChange={handleChange}
-            />
-            <select name="nivel" onChange={handleChange} value={values.nivel}>
-              <option value="">Selecione um nível</option>
-              {renderOptions()}
-            </select>
           </Form>
           <Title>
             <BiCheck
@@ -150,20 +101,16 @@ export default function ItemDetails({ user, changeDev, removeUser, close }) {
         <User>
           <Title>
             <Title>
-              <Avatar image={user.name} />
-              <h4>{user.name}</h4>
+              {/* <Avatar image={level.name} /> */}
+              <h4>{level.level}</h4>
             </Title>
           </Title>
-
-          <p>Idade: {user.idade}</p>
-          <p>Hobbie: {user.hobby}</p>
-          <p>Nivel: {user.nivel}</p>
           <Title>
             <BiTrash
               color={"#e63946"}
               size={40}
               style={{ cursor: "pointer" }}
-              onClick={() => handleDelete(user._id)}
+              onClick={() => handleDelete(level._id)}
             />
             <FiEdit3
               color={"#e63946"}

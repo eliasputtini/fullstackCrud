@@ -1,9 +1,14 @@
 import React from "react";
 
 import Home from "./screens/Home";
+import ToastProvider from "./context/ToasterProvider";
 
 function App() {
-  return <Home />;
+  return (
+    <ToastProvider>
+      <Home />
+    </ToastProvider>
+  );
 }
 
 export default App;

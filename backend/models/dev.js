@@ -5,6 +5,7 @@ const dataSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  nivel: { type: mongoose.Schema.Types.ObjectId, ref: "Level" },
   //   sexo: {
   //     required: true,
   //     type: String,

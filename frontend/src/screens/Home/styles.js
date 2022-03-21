@@ -19,6 +19,13 @@ const Marker = styled.span`
   font-family: monospace;
 `;
 
+const ListView = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+`;
+
 const Image = styled(a.div)`
   width: 100%;
   height: 100%;
@@ -26,4 +33,4 @@ const Image = styled(a.div)`
   background-position: center center;
 `;
 
-export { Main, Content, Marker, Image };
+export { Main, Content, Marker, Image, ListView };

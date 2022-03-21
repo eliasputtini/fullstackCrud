@@ -26,9 +26,11 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-const routes = require("./routes/routes");
+const routes = require("./routes/dev");
+const levelRoutes = require("./routes/level");
 
 app.use("/api", routes);
+app.use("/api", levelRoutes);
 
 app.listen(4000, () => {
   console.log(`Server Started at ${4000}`);

@@ -6,8 +6,8 @@ import { useRef, useState, useEffect } from "react";
 import Item from "./components/Item";
 import ItemDetails from "./components/ItemDetails";
 
-export default function List({ users, setUsers, removeUser }) {
-  const [dev, setDev] = useState();
+export default function LevelList({ levels, setLevels, removeLevel }) {
+  const [level, setLevel] = useState();
   const modalRef = useRef();
   const openModal = () => {
     modalRef.current.openModal();
@@ -17,38 +17,38 @@ export default function List({ users, setUsers, removeUser }) {
   };
 
   useEffect(() => {
-    let x = users;
-    if (dev) {
-      const findIndex = x.findIndex((a) => a._id === dev._id);
+    let x = levels;
+    if (level) {
+      const findIndex = x.findIndex((a) => a._id === level._id);
 
       findIndex !== -1 && x.splice(findIndex, 1);
 
-      setUsers([...x, dev]);
+      setLevels([...x, level]);
     }
-  }, [dev]);
+  }, [level]);
 
-  if (users) {
+  if (levels) {
     return (
       <Container>
-        <h2>Lista de desenvolvedores:</h2>
+        <h2>Lista de níveis:</h2>
         <div>
-          {users.map((user) => (
+          {levels.map((nivel) => (
             <div
-              key={user._id + user.name}
+              key={nivel._id + nivel.level}
               onClick={() => {
-                setDev(user);
+                setLevel(nivel);
                 openModal();
               }}
             >
-              <Item user={user} />
+              <Item nivel={nivel} />
             </div>
           ))}
         </div>
         <Modal ref={modalRef}>
           <ItemDetails
-            user={dev}
-            changeDev={setDev}
-            removeUser={removeUser}
+            level={level}
+            changeLevel={setLevel}
+            removeLevel={removeLevel}
             close={close}
           />
         </Modal>
@@ -58,7 +58,7 @@ export default function List({ users, setUsers, removeUser }) {
 
   return (
     <Container>
-      <h2>Nenhum dev encontrado...</h2>
+      <h2>Nenhum level encontrado...</h2>
       <h3>Tente adicionar algum usando o formulário acima ☝ !!</h3>
     </Container>
   );

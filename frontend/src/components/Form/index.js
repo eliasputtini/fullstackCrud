@@ -1,37 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-import { Container } from "./styles";
+import { Container, FormStyle } from "./styles";
 
-import { postDevelopers } from "../../services/api";
+import { postDevelopers, postLevel } from "../../services/api";
+import { useToast } from "../../context/ToasterProvider";
 
-export default function Form({ users, setUsers }) {
+export default function Form({ users, setUsers, levels, setLevels }) {
   const initialValues = {
     id: "",
     name: "",
     idade: "",
     hobby: "",
+    nivel: "",
   };
-
+  const { addToast } = useToast();
   const [values, setValues] = useState(initialValues);
+  const [levelValues, setLevelValues] = useState({ id: "", level: "" });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
 
+  const handleChangeLevel = (e) => {
+    const { name, value } = e.target;
+    setLevelValues({ ...levelValues, [name]: value });
+  };
+
+  const handleSubmitLevel = (e) => {
+    try {
+      postLevel(levelValues.level);
+      addToast("Nível cadastrado com sucesso!");
+    } catch (e) {
+      addToast("Erro !");
+    }
+    e.preventDefault();
+    const newLevel = { ...levelValues };
+    setLevels([...levels, newLevel]);
+    setLevelValues({ level: "" });
+  };
+
   const handleSubmit = (e) => {
-    postDevelopers(values.name, values.idade, values.hobby);
+    try {
+      postDevelopers(values.name, values.idade, values.hobby, values.nivel);
+      addToast("Dev cadastrado com sucesso!");
+    } catch (e) {
+      addToast("Erro !");
+    }
     e.preventDefault();
     const newUser = { ...values };
-
     setUsers([...users, newUser]);
     setValues(initialValues);
   };
 
+  const renderOptions = () => {
+    return (
+      levels &&
+      levels.length > 0 &&
+      levels.map((user, index) => {
+        return <option key={user._id}>{user.level}</option>;
+      })
+    );
+  };
+
   return (
     <Container>
-      <h2>Add new user</h2>
-      <form onSubmit={handleSubmit}>
+      <FormStyle onSubmit={handleSubmit}>
+        <h2>Adicionar desenvolvedor</h2>
         <label>Full name: </label>
         <input
           required
@@ -58,9 +94,27 @@ export default function Form({ users, setUsers }) {
           value={values.hobby}
           onChange={handleChange}
         />
+        <label>Nivel: </label>
+        <select name="nivel" onChange={handleChange} value={values.nivel}>
+          <option value="">Selecione um nível</option>
+          {renderOptions()}
+        </select>
+        <button type="submit">SUBMIT</button>
+      </FormStyle>
+
+      <FormStyle onSubmit={handleSubmitLevel}>
+        <h2>Adicionar Nível</h2>
+        <label>Nível: </label>
+        <input
+          required
+          type="text"
+          name="level"
+          value={levelValues.level}
+          onChange={handleChangeLevel}
+        />
 
         <button type="submit">SUBMIT</button>
-      </form>
+      </FormStyle>
     </Container>
   );
 }
