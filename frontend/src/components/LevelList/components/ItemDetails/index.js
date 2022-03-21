@@ -41,7 +41,6 @@ export default function ItemDetails({
       addToast("Erro !");
     }
     const newUser = { ...values };
-    console.log(newUser);
     changeLevel(newUser);
   };
 

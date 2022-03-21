@@ -5,7 +5,7 @@ import Form from "../../components/Form";
 import List from "../../components/List";
 import LevelList from "../../components/LevelList";
 
-import { Main, ListView } from "./styles.js";
+import { Main, ListView, View } from "./styles.js";
 
 function Home() {
   const [developers, setDevelopers] = useState();
@@ -43,27 +43,30 @@ function Home() {
       {loading ? (
         <p>loading...</p>
       ) : (
-        <Main>
-          <Form
-            users={developers}
-            setUsers={setDevelopers}
-            levels={levels}
-            setLevels={setLevels}
-          />
-          <br />
-          <ListView>
-            <List
+        <View>
+          <h1>Dev CRUD</h1>
+          <Main>
+            <Form
               users={developers}
               setUsers={setDevelopers}
-              removeUser={removeUser}
-            />
-            <LevelList
               levels={levels}
               setLevels={setLevels}
-              removeLevel={removeLevel}
             />
-          </ListView>
-        </Main>
+            <br />
+            <ListView>
+              <List
+                users={developers}
+                setUsers={setDevelopers}
+                removeUser={removeUser}
+              />
+              <LevelList
+                levels={levels}
+                setLevels={setLevels}
+                removeLevel={removeLevel}
+              />
+            </ListView>
+          </Main>
+        </View>
       )}
     </>
   );

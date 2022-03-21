@@ -26,8 +26,9 @@ export default function List({ users, setUsers, removeUser }) {
       setUsers([...x, dev]);
     }
   }, [dev]);
+  console.log(users);
 
-  if (users) {
+  if (users && users.length > 0) {
     return (
       <Container>
         <h2>Lista de desenvolvedores:</h2>

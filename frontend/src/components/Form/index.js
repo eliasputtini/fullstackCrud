@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
-import { Container, FormStyle } from "./styles";
+import { Container, FormStyle, Button } from "./styles";
 
 import { postDevelopers, postLevel } from "../../services/api";
 import { useToast } from "../../context/ToasterProvider";
@@ -16,7 +16,6 @@ export default function Form({ users, setUsers, levels, setLevels }) {
   const { addToast } = useToast();
   const [values, setValues] = useState(initialValues);
   const [levelValues, setLevelValues] = useState({ id: "", level: "" });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +67,7 @@ export default function Form({ users, setUsers, levels, setLevels }) {
     <Container>
       <FormStyle onSubmit={handleSubmit}>
         <h2>Adicionar desenvolvedor</h2>
-        <label>Full name: </label>
+        <label>Nome: </label>
         <input
           required
           type="text"
@@ -99,7 +98,7 @@ export default function Form({ users, setUsers, levels, setLevels }) {
           <option value="">Selecione um nível</option>
           {renderOptions()}
         </select>
-        <button type="submit">SUBMIT</button>
+        <Button type="submit">Enviar</Button>
       </FormStyle>
 
       <FormStyle onSubmit={handleSubmitLevel}>
@@ -113,7 +112,7 @@ export default function Form({ users, setUsers, levels, setLevels }) {
           onChange={handleChangeLevel}
         />
 
-        <button type="submit">SUBMIT</button>
+        <Button type="submit">Enviar</Button>
       </FormStyle>
     </Container>
   );

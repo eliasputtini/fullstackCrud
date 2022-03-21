@@ -27,7 +27,7 @@ export default function LevelList({ levels, setLevels, removeLevel }) {
     }
   }, [level]);
 
-  if (levels) {
+  if (levels && levels.length > 0) {
     return (
       <Container>
         <h2>Lista de níveis:</h2>

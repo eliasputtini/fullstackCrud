@@ -16,7 +16,7 @@ import { useSpring } from "react-spring";
 export default function ItemDetails({ user, changeDev, removeUser, close }) {
   const [level, setLevel] = useState([]);
   useEffect(() => {
-    getLevel().then((response) => {
+    getLevel(user.nivel).then((response) => {
       setLevel(response.data);
     });
     getLevels().then((response) => {
@@ -28,7 +28,7 @@ export default function ItemDetails({ user, changeDev, removeUser, close }) {
     name: user.name,
     idade: user.idade,
     hobby: user.hobby,
-    nivel: user.nivel == null ? "" : level,
+    nivel: user.nivel == null ? "" : level.level,
   };
   const [flipped, set] = useState(false);
   const [values, setValues] = useState(initialValues);
@@ -157,7 +157,7 @@ export default function ItemDetails({ user, changeDev, removeUser, close }) {
 
           <p>Idade: {user.idade}</p>
           <p>Hobbie: {user.hobby}</p>
-          <p>Nivel: {user.nivel}</p>
+          <p>Nivel: {level.level}</p>
           <Title>
             <BiTrash
               color={"#e63946"}

@@ -4,8 +4,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 `;
 
 const FormStyle = styled.form`
@@ -16,4 +16,13 @@ const FormStyle = styled.form`
   justify-content: space-between;
 `;
 
-export { Container, FormStyle };
+const Button = styled.button`
+  margin-top: 20px;
+  background-color: transparent;
+  color: "grey";
+  border: 2px solid "black";
+  overflow: hidden;
+  box-shadow: none;
+`;
+
+export { Container, FormStyle, Button };
