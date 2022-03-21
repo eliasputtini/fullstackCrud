@@ -1,6 +1,8 @@
 # fullstackCrud
 Aplicação full stack em React, Node e Express, utilizando MongoDB como banco de dados.
 
+Heroku deploy https://dev-crud-fullstack.herokuapp.com/
+
 
 ## Prerequisitos
 
